@@ -1,0 +1,725 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="CirohubDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Companies">
+          <Key>
+            <PropertyRef Name="CompanyId" />
+          </Key>
+          <Property Name="CompanyId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CompanyName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Inactive" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="20" />
+          <Property Name="ModifiedDate" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'CirohubDB.dbo.EmployeeCountLookup' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="EmployeeCountLookup">
+          <Key>
+            <PropertyRef Name="EmployeeCountID" />
+            <PropertyRef Name="EmployeeCount" />
+            <PropertyRef Name="ModifiedDate" />
+          </Key>
+          <Property Name="EmployeeCountID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeCount" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="20" />
+          <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Industries">
+          <Key>
+            <PropertyRef Name="IndustryId" />
+          </Key>
+          <Property Name="IndustryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IndustryName" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'CirohubDB.dbo.MatchColorLookup' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="MatchColorLookup">
+          <Key>
+            <PropertyRef Name="ColorID" />
+            <PropertyRef Name="Color" />
+            <PropertyRef Name="HexColor" />
+            <PropertyRef Name="ModifiedDate" />
+          </Key>
+          <Property Name="ColorID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Color" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="HexColor" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="20" />
+          <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'CirohubDB.dbo.MatchScoreLookup' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="MatchScoreLookup">
+          <Key>
+            <PropertyRef Name="ScoreID" />
+            <PropertyRef Name="Score" />
+            <PropertyRef Name="ModifiedDate" />
+          </Key>
+          <Property Name="ScoreID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Score" Type="int" Nullable="false" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="20" />
+          <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Person">
+          <Key>
+            <PropertyRef Name="PersonId" />
+          </Key>
+          <Property Name="PersonId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="100" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="100" />
+          <Property Name="Address1" Type="nvarchar" MaxLength="100" />
+          <Property Name="Address2" Type="nvarchar" MaxLength="100" />
+          <Property Name="City" Type="nvarchar" MaxLength="100" />
+          <Property Name="State" Type="nvarchar" MaxLength="2" />
+          <Property Name="ZipCode" Type="nvarchar" MaxLength="10" />
+          <Property Name="Country" Type="nvarchar" MaxLength="50" />
+          <Property Name="Phone1" Type="nvarchar" MaxLength="20" />
+          <Property Name="Phone2" Type="nvarchar" MaxLength="20" />
+          <Property Name="Phone3" Type="nvarchar" MaxLength="20" />
+          <Property Name="EmailAddress" Type="nvarchar" MaxLength="100" />
+          <Property Name="Inactive" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="20" />
+          <Property Name="ModifiedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Profile">
+          <Key>
+            <PropertyRef Name="ProfileId" />
+          </Key>
+          <Property Name="ProfileId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PersonID" Type="int" Nullable="false" />
+          <Property Name="YearsExperienceID" Type="int" />
+          <Property Name="LoginName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="20" />
+          <Property Name="Inactive" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="20" />
+          <Property Name="ModifiedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ProfileCompany">
+          <Key>
+            <PropertyRef Name="ProfileID" />
+            <PropertyRef Name="CompanyID" />
+          </Key>
+          <Property Name="ProfileID" Type="int" Nullable="false" />
+          <Property Name="CompanyID" Type="int" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="100" />
+          <Property Name="Address1" Type="nvarchar" MaxLength="100" />
+          <Property Name="Address2" Type="nvarchar" MaxLength="100" />
+          <Property Name="City" Type="nvarchar" MaxLength="100" />
+          <Property Name="State" Type="nvarchar" MaxLength="2" />
+          <Property Name="ZipCode" Type="nvarchar" MaxLength="10" />
+          <Property Name="Country" Type="nvarchar" MaxLength="50" />
+          <Property Name="Phone1" Type="nvarchar" MaxLength="20" />
+          <Property Name="Phone2" Type="nvarchar" MaxLength="20" />
+          <Property Name="Phone3" Type="nvarchar" MaxLength="20" />
+          <Property Name="EmployeeCountID" Type="int" />
+          <Property Name="IndustryID" Type="int" />
+          <Property Name="GrossRevenue" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="OperatingMargin" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="NetMargin" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="TotalAssets" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="20" />
+          <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProfileIndustry">
+          <Key>
+            <PropertyRef Name="ProfileID" />
+            <PropertyRef Name="IndustryID" />
+          </Key>
+          <Property Name="ProfileID" Type="int" Nullable="false" />
+          <Property Name="IndustryID" Type="int" Nullable="false" />
+          <Property Name="Buy" Type="nvarchar" MaxLength="1" Nullable="false" />
+          <Property Name="Sell" Type="nvarchar" MaxLength="1" Nullable="false" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="20" />
+          <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProfileLogin">
+          <Key>
+            <PropertyRef Name="ProfileId" />
+            <PropertyRef Name="LoginDate" />
+          </Key>
+          <Property Name="ProfileId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LoginDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProfileMatch">
+          <Key>
+            <PropertyRef Name="ProfileID" />
+            <PropertyRef Name="MatchProfileID" />
+          </Key>
+          <Property Name="ProfileID" Type="int" Nullable="false" />
+          <Property Name="MatchProfileID" Type="int" Nullable="false" />
+          <Property Name="ScoreID" Type="int" Nullable="false" />
+          <Property Name="ColorID" Type="int" Nullable="false" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="20" />
+          <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProfilePartnerCompany">
+          <Key>
+            <PropertyRef Name="ProfileID" />
+            <PropertyRef Name="CompanyID" />
+          </Key>
+          <Property Name="ProfileID" Type="int" Nullable="false" />
+          <Property Name="CompanyID" Type="int" Nullable="false" />
+          <Property Name="Buy" Type="nvarchar" MaxLength="1" Nullable="false" />
+          <Property Name="Sell" Type="nvarchar" MaxLength="1" Nullable="false" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="20" />
+          <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProfileServices">
+          <Key>
+            <PropertyRef Name="ProfileID" />
+            <PropertyRef Name="ServiceID" />
+          </Key>
+          <Property Name="ProfileID" Type="int" Nullable="false" />
+          <Property Name="ServiceCatID" Type="int" Nullable="false" />
+          <Property Name="ServiceID" Type="int" Nullable="false" />
+          <Property Name="Buy" Type="nvarchar" MaxLength="1" Nullable="false" />
+          <Property Name="Sell" Type="nvarchar" MaxLength="1" Nullable="false" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="20" />
+          <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'CirohubDB.dbo.Services' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Services">
+          <Key>
+            <PropertyRef Name="ServiceId" />
+            <PropertyRef Name="ServiceName" />
+            <PropertyRef Name="Inactive" />
+          </Key>
+          <Property Name="ServiceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ServiceName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Inactive" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="20" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="ServiceTypeID" Type="int" />
+        </EntityType>
+        <EntityType Name="ServiceType">
+          <Key>
+            <PropertyRef Name="ServiceTypeId" />
+          </Key>
+          <Property Name="ServiceTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ServiceType" Type="nvarchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'CirohubDB.dbo.YearsExperienceLookup' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="YearsExperienceLookup">
+          <Key>
+            <PropertyRef Name="YearsExperienceID" />
+            <PropertyRef Name="YearsExperience" />
+            <PropertyRef Name="ModifiedDate" />
+          </Key>
+          <Property Name="YearsExperienceID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="YearsExperience" Type="int" Nullable="false" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="20" />
+          <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="CirohubDBModelStoreContainer">
+          <EntitySet Name="Companies" EntityType="Self.Companies" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Industries" EntityType="Self.Industries" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Person" EntityType="Self.Person" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Profile" EntityType="Self.Profile" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProfileCompany" EntityType="Self.ProfileCompany" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProfileIndustry" EntityType="Self.ProfileIndustry" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProfileLogin" EntityType="Self.ProfileLogin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProfileMatch" EntityType="Self.ProfileMatch" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProfilePartnerCompany" EntityType="Self.ProfilePartnerCompany" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProfileServices" EntityType="Self.ProfileServices" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ServiceType" EntityType="Self.ServiceType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmployeeCountLookup" EntityType="Self.EmployeeCountLookup" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [EmployeeCountLookup].[EmployeeCountID] AS [EmployeeCountID], 
+    [EmployeeCountLookup].[EmployeeCount] AS [EmployeeCount], 
+    [EmployeeCountLookup].[ModifiedBy] AS [ModifiedBy], 
+    [EmployeeCountLookup].[ModifiedDate] AS [ModifiedDate]
+    FROM [dbo].[EmployeeCountLookup] AS [EmployeeCountLookup]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="MatchColorLookup" EntityType="Self.MatchColorLookup" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [MatchColorLookup].[ColorID] AS [ColorID], 
+    [MatchColorLookup].[Color] AS [Color], 
+    [MatchColorLookup].[HexColor] AS [HexColor], 
+    [MatchColorLookup].[ModifiedBy] AS [ModifiedBy], 
+    [MatchColorLookup].[ModifiedDate] AS [ModifiedDate]
+    FROM [dbo].[MatchColorLookup] AS [MatchColorLookup]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="MatchScoreLookup" EntityType="Self.MatchScoreLookup" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [MatchScoreLookup].[ScoreID] AS [ScoreID], 
+    [MatchScoreLookup].[Score] AS [Score], 
+    [MatchScoreLookup].[ModifiedBy] AS [ModifiedBy], 
+    [MatchScoreLookup].[ModifiedDate] AS [ModifiedDate]
+    FROM [dbo].[MatchScoreLookup] AS [MatchScoreLookup]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Services" EntityType="Self.Services" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Services].[ServiceId] AS [ServiceId], 
+    [Services].[ServiceName] AS [ServiceName], 
+    [Services].[Inactive] AS [Inactive], 
+    [Services].[ModifiedBy] AS [ModifiedBy], 
+    [Services].[ModifiedDate] AS [ModifiedDate], 
+    [Services].[ServiceTypeID] AS [ServiceTypeID]
+    FROM [dbo].[Services] AS [Services]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="YearsExperienceLookup" EntityType="Self.YearsExperienceLookup" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [YearsExperienceLookup].[YearsExperienceID] AS [YearsExperienceID], 
+    [YearsExperienceLookup].[YearsExperience] AS [YearsExperience], 
+    [YearsExperienceLookup].[ModifiedBy] AS [ModifiedBy], 
+    [YearsExperienceLookup].[ModifiedDate] AS [ModifiedDate]
+    FROM [dbo].[YearsExperienceLookup] AS [YearsExperienceLookup]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CirohubDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="CompanyId" />
+          </Key>
+          <Property Name="CompanyId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Inactive" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Industry">
+          <Key>
+            <PropertyRef Name="IndustryId" />
+          </Key>
+          <Property Name="IndustryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IndustryName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Person">
+          <Key>
+            <PropertyRef Name="PersonId" />
+          </Key>
+          <Property Name="PersonId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Address1" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Address2" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="State" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="ZipCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Phone1" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Phone2" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Phone3" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="EmailAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Inactive" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Profile">
+          <Key>
+            <PropertyRef Name="ProfileId" />
+          </Key>
+          <Property Name="ProfileId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PersonID" Type="Int32" Nullable="false" />
+          <Property Name="YearsExperienceID" Type="Int32" />
+          <Property Name="LoginName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Inactive" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="ProfileCompany">
+          <Key>
+            <PropertyRef Name="ProfileID" />
+            <PropertyRef Name="CompanyID" />
+          </Key>
+          <Property Name="ProfileID" Type="Int32" Nullable="false" />
+          <Property Name="CompanyID" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Address1" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Address2" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="State" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="ZipCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Phone1" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Phone2" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Phone3" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="EmployeeCountID" Type="Int32" />
+          <Property Name="IndustryID" Type="Int32" />
+          <Property Name="GrossRevenue" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="OperatingMargin" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="NetMargin" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="TotalAssets" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="ProfileIndustry">
+          <Key>
+            <PropertyRef Name="ProfileID" />
+            <PropertyRef Name="IndustryID" />
+          </Key>
+          <Property Name="ProfileID" Type="Int32" Nullable="false" />
+          <Property Name="IndustryID" Type="Int32" Nullable="false" />
+          <Property Name="Buy" Type="String" MaxLength="1" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Sell" Type="String" MaxLength="1" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="ProfileLogin">
+          <Key>
+            <PropertyRef Name="ProfileId" />
+            <PropertyRef Name="LoginDate" />
+          </Key>
+          <Property Name="ProfileId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LoginDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="ProfileMatch">
+          <Key>
+            <PropertyRef Name="ProfileID" />
+            <PropertyRef Name="MatchProfileID" />
+          </Key>
+          <Property Name="ProfileID" Type="Int32" Nullable="false" />
+          <Property Name="MatchProfileID" Type="Int32" Nullable="false" />
+          <Property Name="ScoreID" Type="Int32" Nullable="false" />
+          <Property Name="ColorID" Type="Int32" Nullable="false" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="ProfilePartnerCompany">
+          <Key>
+            <PropertyRef Name="ProfileID" />
+            <PropertyRef Name="CompanyID" />
+          </Key>
+          <Property Name="ProfileID" Type="Int32" Nullable="false" />
+          <Property Name="CompanyID" Type="Int32" Nullable="false" />
+          <Property Name="Buy" Type="String" MaxLength="1" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Sell" Type="String" MaxLength="1" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="ProfileService">
+          <Key>
+            <PropertyRef Name="ProfileID" />
+            <PropertyRef Name="ServiceID" />
+          </Key>
+          <Property Name="ProfileID" Type="Int32" Nullable="false" />
+          <Property Name="ServiceCatID" Type="Int32" Nullable="false" />
+          <Property Name="ServiceID" Type="Int32" Nullable="false" />
+          <Property Name="Buy" Type="String" MaxLength="1" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Sell" Type="String" MaxLength="1" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="ServiceType">
+          <Key>
+            <PropertyRef Name="ServiceTypeId" />
+          </Key>
+          <Property Name="ServiceTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ServiceType1" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EmployeeCountLookup">
+          <Key>
+            <PropertyRef Name="EmployeeCountID" />
+            <PropertyRef Name="EmployeeCount" />
+            <PropertyRef Name="ModifiedDate" />
+          </Key>
+          <Property Name="EmployeeCountID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeCount" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="MatchColorLookup">
+          <Key>
+            <PropertyRef Name="ColorID" />
+            <PropertyRef Name="Color" />
+            <PropertyRef Name="HexColor" />
+            <PropertyRef Name="ModifiedDate" />
+          </Key>
+          <Property Name="ColorID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Color" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="HexColor" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="MatchScoreLookup">
+          <Key>
+            <PropertyRef Name="ScoreID" />
+            <PropertyRef Name="Score" />
+            <PropertyRef Name="ModifiedDate" />
+          </Key>
+          <Property Name="ScoreID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Score" Type="Int32" Nullable="false" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="Service">
+          <Key>
+            <PropertyRef Name="ServiceId" />
+            <PropertyRef Name="ServiceName" />
+            <PropertyRef Name="Inactive" />
+          </Key>
+          <Property Name="ServiceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ServiceName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Inactive" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ServiceTypeID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="YearsExperienceLookup">
+          <Key>
+            <PropertyRef Name="YearsExperienceID" />
+            <PropertyRef Name="YearsExperience" />
+            <PropertyRef Name="ModifiedDate" />
+          </Key>
+          <Property Name="YearsExperienceID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="YearsExperience" Type="Int32" Nullable="false" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityContainer Name="CirohubDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Companies" EntityType="Self.Company" />
+          <EntitySet Name="Industries" EntityType="Self.Industry" />
+          <EntitySet Name="People" EntityType="Self.Person" />
+          <EntitySet Name="Profiles" EntityType="Self.Profile" />
+          <EntitySet Name="ProfileCompanies" EntityType="Self.ProfileCompany" />
+          <EntitySet Name="ProfileIndustries" EntityType="Self.ProfileIndustry" />
+          <EntitySet Name="ProfileLogins" EntityType="Self.ProfileLogin" />
+          <EntitySet Name="ProfileMatches" EntityType="Self.ProfileMatch" />
+          <EntitySet Name="ProfilePartnerCompanies" EntityType="Self.ProfilePartnerCompany" />
+          <EntitySet Name="ProfileServices" EntityType="Self.ProfileService" />
+          <EntitySet Name="ServiceTypes" EntityType="Self.ServiceType" />
+          <EntitySet Name="EmployeeCountLookups" EntityType="Self.EmployeeCountLookup" />
+          <EntitySet Name="MatchColorLookups" EntityType="Self.MatchColorLookup" />
+          <EntitySet Name="MatchScoreLookups" EntityType="Self.MatchScoreLookup" />
+          <EntitySet Name="Services" EntityType="Self.Service" />
+          <EntitySet Name="YearsExperienceLookups" EntityType="Self.YearsExperienceLookup" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CirohubDBModelStoreContainer" CdmEntityContainer="CirohubDBEntities">
+          <EntitySetMapping Name="Companies">
+            <EntityTypeMapping TypeName="CirohubDBModel.Company">
+              <MappingFragment StoreEntitySet="Companies">
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="Inactive" ColumnName="Inactive" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Industries">
+            <EntityTypeMapping TypeName="CirohubDBModel.Industry">
+              <MappingFragment StoreEntitySet="Industries">
+                <ScalarProperty Name="IndustryId" ColumnName="IndustryId" />
+                <ScalarProperty Name="IndustryName" ColumnName="IndustryName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="People">
+            <EntityTypeMapping TypeName="CirohubDBModel.Person">
+              <MappingFragment StoreEntitySet="Person">
+                <ScalarProperty Name="PersonId" ColumnName="PersonId" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Address1" ColumnName="Address1" />
+                <ScalarProperty Name="Address2" ColumnName="Address2" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="Phone1" ColumnName="Phone1" />
+                <ScalarProperty Name="Phone2" ColumnName="Phone2" />
+                <ScalarProperty Name="Phone3" ColumnName="Phone3" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="Inactive" ColumnName="Inactive" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Profiles">
+            <EntityTypeMapping TypeName="CirohubDBModel.Profile">
+              <MappingFragment StoreEntitySet="Profile">
+                <ScalarProperty Name="ProfileId" ColumnName="ProfileId" />
+                <ScalarProperty Name="PersonID" ColumnName="PersonID" />
+                <ScalarProperty Name="YearsExperienceID" ColumnName="YearsExperienceID" />
+                <ScalarProperty Name="LoginName" ColumnName="LoginName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Inactive" ColumnName="Inactive" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProfileCompanies">
+            <EntityTypeMapping TypeName="CirohubDBModel.ProfileCompany">
+              <MappingFragment StoreEntitySet="ProfileCompany">
+                <ScalarProperty Name="ProfileID" ColumnName="ProfileID" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Address1" ColumnName="Address1" />
+                <ScalarProperty Name="Address2" ColumnName="Address2" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="Phone1" ColumnName="Phone1" />
+                <ScalarProperty Name="Phone2" ColumnName="Phone2" />
+                <ScalarProperty Name="Phone3" ColumnName="Phone3" />
+                <ScalarProperty Name="EmployeeCountID" ColumnName="EmployeeCountID" />
+                <ScalarProperty Name="IndustryID" ColumnName="IndustryID" />
+                <ScalarProperty Name="GrossRevenue" ColumnName="GrossRevenue" />
+                <ScalarProperty Name="OperatingMargin" ColumnName="OperatingMargin" />
+                <ScalarProperty Name="NetMargin" ColumnName="NetMargin" />
+                <ScalarProperty Name="TotalAssets" ColumnName="TotalAssets" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProfileIndustries">
+            <EntityTypeMapping TypeName="CirohubDBModel.ProfileIndustry">
+              <MappingFragment StoreEntitySet="ProfileIndustry">
+                <ScalarProperty Name="ProfileID" ColumnName="ProfileID" />
+                <ScalarProperty Name="IndustryID" ColumnName="IndustryID" />
+                <ScalarProperty Name="Buy" ColumnName="Buy" />
+                <ScalarProperty Name="Sell" ColumnName="Sell" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProfileLogins">
+            <EntityTypeMapping TypeName="CirohubDBModel.ProfileLogin">
+              <MappingFragment StoreEntitySet="ProfileLogin">
+                <ScalarProperty Name="ProfileId" ColumnName="ProfileId" />
+                <ScalarProperty Name="LoginDate" ColumnName="LoginDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProfileMatches">
+            <EntityTypeMapping TypeName="CirohubDBModel.ProfileMatch">
+              <MappingFragment StoreEntitySet="ProfileMatch">
+                <ScalarProperty Name="ProfileID" ColumnName="ProfileID" />
+                <ScalarProperty Name="MatchProfileID" ColumnName="MatchProfileID" />
+                <ScalarProperty Name="ScoreID" ColumnName="ScoreID" />
+                <ScalarProperty Name="ColorID" ColumnName="ColorID" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProfilePartnerCompanies">
+            <EntityTypeMapping TypeName="CirohubDBModel.ProfilePartnerCompany">
+              <MappingFragment StoreEntitySet="ProfilePartnerCompany">
+                <ScalarProperty Name="ProfileID" ColumnName="ProfileID" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="Buy" ColumnName="Buy" />
+                <ScalarProperty Name="Sell" ColumnName="Sell" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProfileServices">
+            <EntityTypeMapping TypeName="CirohubDBModel.ProfileService">
+              <MappingFragment StoreEntitySet="ProfileServices">
+                <ScalarProperty Name="ProfileID" ColumnName="ProfileID" />
+                <ScalarProperty Name="ServiceCatID" ColumnName="ServiceCatID" />
+                <ScalarProperty Name="ServiceID" ColumnName="ServiceID" />
+                <ScalarProperty Name="Buy" ColumnName="Buy" />
+                <ScalarProperty Name="Sell" ColumnName="Sell" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ServiceTypes">
+            <EntityTypeMapping TypeName="CirohubDBModel.ServiceType">
+              <MappingFragment StoreEntitySet="ServiceType">
+                <ScalarProperty Name="ServiceTypeId" ColumnName="ServiceTypeId" />
+                <ScalarProperty Name="ServiceType1" ColumnName="ServiceType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmployeeCountLookups">
+            <EntityTypeMapping TypeName="CirohubDBModel.EmployeeCountLookup">
+              <MappingFragment StoreEntitySet="EmployeeCountLookup">
+                <ScalarProperty Name="EmployeeCountID" ColumnName="EmployeeCountID" />
+                <ScalarProperty Name="EmployeeCount" ColumnName="EmployeeCount" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MatchColorLookups">
+            <EntityTypeMapping TypeName="CirohubDBModel.MatchColorLookup">
+              <MappingFragment StoreEntitySet="MatchColorLookup">
+                <ScalarProperty Name="ColorID" ColumnName="ColorID" />
+                <ScalarProperty Name="Color" ColumnName="Color" />
+                <ScalarProperty Name="HexColor" ColumnName="HexColor" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MatchScoreLookups">
+            <EntityTypeMapping TypeName="CirohubDBModel.MatchScoreLookup">
+              <MappingFragment StoreEntitySet="MatchScoreLookup">
+                <ScalarProperty Name="ScoreID" ColumnName="ScoreID" />
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Services">
+            <EntityTypeMapping TypeName="CirohubDBModel.Service">
+              <MappingFragment StoreEntitySet="Services">
+                <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
+                <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+                <ScalarProperty Name="Inactive" ColumnName="Inactive" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ServiceTypeID" ColumnName="ServiceTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="YearsExperienceLookups">
+            <EntityTypeMapping TypeName="CirohubDBModel.YearsExperienceLookup">
+              <MappingFragment StoreEntitySet="YearsExperienceLookup">
+                <ScalarProperty Name="YearsExperienceID" ColumnName="YearsExperienceID" />
+                <ScalarProperty Name="YearsExperience" ColumnName="YearsExperience" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="false" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
