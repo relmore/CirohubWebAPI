@@ -25,6 +25,7 @@ namespace CirohubServices.Controllers
                     //Save Person
                     try
                     {
+
                         Person person = new Person();
                         person.FirstName = profile.FirstName;
                         person.LastName = profile.LastName;
