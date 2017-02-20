@@ -95,20 +95,25 @@ namespace CirohubServices.Controllers
                     }
 
                     //save profile services
-                    if(profile.ProfileServices != null )
+                    if(profile.ProfileServicesBuy != null )
                     { 
                         try
                         {
-                            foreach (ProfileViewModelService svc in profile.ProfileServices)
+                            foreach (ProfileViewModelService svc in profile.ProfileServicesBuy)
                             {
                                 ProfileService newSvc = new ProfileService();
                                 newSvc.ProfileID = profileID;
                                 newSvc.ServiceID = svc.ServiceID;
                                 newSvc.ServiceCatID = svc.ServiceCatID;
-                                newSvc.Buy = svc.Buy;
-                                newSvc.Sell = svc.Sell;
+                                newSvc.Buy = "Y";
                                 newSvc.ModifiedDate = Convert.ToDateTime("1/1/2017");
-                                entities.ProfileServices.Add(newSvc);
+
+                                var existingEnity = entities.ProfileServices.Find(profileID, svc.ServiceID);
+                                if(existingEnity == null)
+                                {
+                                    entities.ProfileServices.Add(newSvc);
+                                } 
+                                
                                 entities.SaveChanges();
                             }
                         }
@@ -120,6 +125,34 @@ namespace CirohubServices.Controllers
                         
                     }
 
+                    //save profile services
+                    if (profile.ProfileServicesSell != null)
+                    {
+                        try
+                        {
+                            foreach (ProfileViewModelService svc in profile.ProfileServicesSell)
+                            {
+                                ProfileService newSvc = new ProfileService();
+                                newSvc.ProfileID = profileID;
+                                newSvc.ServiceID = svc.ServiceID;
+                                newSvc.ServiceCatID = svc.ServiceCatID;
+                                newSvc.Sell = "Y";
+                                newSvc.ModifiedDate = Convert.ToDateTime("1/1/2017");
+                                var existingEnity = entities.ProfileServices.Find(profileID, svc.ServiceID);
+                                if (existingEnity == null)
+                                {
+                                    entities.ProfileServices.Add(newSvc);
+                                }
+                                entities.SaveChanges();
+                            }
+                        }
+                        catch (DbEntityValidationException ex)
+                        {
+                            string errorMessages = string.Join("; ", ex.EntityValidationErrors.SelectMany(x => x.ValidationErrors).Select(x => x.ErrorMessage));
+                            throw new DbEntityValidationException(errorMessages);
+                        }
+
+                    }
                     //save profile Industries
                     if (profile.IndustrySellingProfile != null)
                     { 
@@ -130,8 +163,8 @@ namespace CirohubServices.Controllers
                                 ProfileIndustry newSvc = new ProfileIndustry();
                                 newSvc.ProfileID = profileID;
                                 newSvc.IndustryID= svc.IndustryID;
-                                newSvc.Buy = svc.Buy;
-                                newSvc.Sell = svc.Sell;
+                                newSvc.Buy = "N";
+                                newSvc.Sell = "Y";
                                 newSvc.ModifiedDate = Convert.ToDateTime("1/1/2017");
                                 entities.ProfileIndustries.Add(newSvc);
                                 entities.SaveChanges();
@@ -145,19 +178,48 @@ namespace CirohubServices.Controllers
                     }
 
                     //save profile Partner Companies
-                    if (profile.PartnerCompanies != null)
+                    if (profile.PartnerCompaniesBuy != null)
                     {
                         try
                         {
-                            foreach (ProfileViewModelPartnerCompany svc in profile.PartnerCompanies)
+                            foreach (ProfileViewModelPartnerCompany svc in profile.PartnerCompaniesBuy)
                             {
                                 ProfilePartnerCompany newSvc = new ProfilePartnerCompany();
                                 newSvc.ProfileID = profileID;
                                 newSvc.CompanyID = svc.CompanyID;
-                                newSvc.Buy = svc.Buy;
-                                newSvc.Sell = svc.Sell;
+                                newSvc.Buy = "Y";
                                 newSvc.ModifiedDate = Convert.ToDateTime("1/1/2017");
-                                entities.ProfilePartnerCompanies.Add(newSvc);
+                                var existingEnity = entities.ProfilePartnerCompanies.Find(profileID, svc.CompanyID);
+                                if (existingEnity == null)
+                                {
+                                    entities.ProfilePartnerCompanies.Add(newSvc);
+                                }
+                                entities.SaveChanges();
+                            }
+                        }
+                        catch (DbEntityValidationException ex)
+                        {
+                            string errorMessages = string.Join("; ", ex.EntityValidationErrors.SelectMany(x => x.ValidationErrors).Select(x => x.ErrorMessage));
+                            throw new DbEntityValidationException(errorMessages);
+                        }
+                    }
+
+                    if (profile.PartnerCompaniesSell != null)
+                    {
+                        try
+                        {
+                            foreach (ProfileViewModelPartnerCompany svc in profile.PartnerCompaniesSell)
+                            {
+                                ProfilePartnerCompany newSvc = new ProfilePartnerCompany();
+                                newSvc.ProfileID = profileID;
+                                newSvc.CompanyID = svc.CompanyID;
+                                newSvc.Sell = "Y";
+                                newSvc.ModifiedDate = Convert.ToDateTime("1/1/2017");
+                                var existingEnity = entities.ProfilePartnerCompanies.Find(profileID, svc.CompanyID);
+                                if (existingEnity == null)
+                                {
+                                    entities.ProfilePartnerCompanies.Add(newSvc);
+                                }
                                 entities.SaveChanges();
                             }
                         }
@@ -172,12 +234,12 @@ namespace CirohubServices.Controllers
 
                 catch (Exception ex)
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex.Message);
                 }
 
                 //All entities saved, return profile ID to client
                 var message = Request.CreateResponse(HttpStatusCode.Created, profile);
-                message.Headers.Location = new Uri(Request.RequestUri + "/" + profileID.ToString());
+                message.Headers.Location = new Uri(Request.RequestUri + profileID.ToString());
                 return message;
             }
 

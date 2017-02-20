@@ -19,9 +19,16 @@ namespace CirohubServices.Models
 
         public ProfileViewModelCompany Company { get; set; }
         public List<ProfileViewModelIndustry> IndustrySellingProfile { get; set; }
-        public List<ProfileViewModelPartnerCompany> PartnerCompanies { get; set; }
-        public  List<ProfileViewModelService> ProfileServices { get; set; }
 
+        public List<ProfileViewModelPartnerCompany> PartnerCompanies { get; set; }
+        public List<ProfileViewModelPartnerCompany> PartnerCompaniesBuy { get; set; }
+        public List<ProfileViewModelPartnerCompany> PartnerCompaniesSell { get; set; }
+        public  List<ProfileViewModelService> ProfileServicesBuy { get; set; }
+        public List<ProfileViewModelService> ProfileServicesSell { get; set; }
+
+
+
+        public List<ProfileViewModelService> ProfileServices { get; set; }
     }
 
         public class ProfileViewModelCompany
