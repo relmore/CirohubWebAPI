@@ -12,6 +12,8 @@ namespace CirohubServicesDataLayer
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class CirohubDBEntities : DbContext
     {
@@ -41,5 +43,32 @@ namespace CirohubServicesDataLayer
         public virtual DbSet<MatchScoreLookup> MatchScoreLookups { get; set; }
         public virtual DbSet<Service> Services { get; set; }
         public virtual DbSet<YearsExperienceLookup> YearsExperienceLookups { get; set; }
+    
+        public virtual ObjectResult<ProfileConnection> GetProfileConnections(Nullable<int> profileID)
+        {
+            var profileIDParameter = profileID.HasValue ?
+                new ObjectParameter("profileID", profileID) :
+                new ObjectParameter("profileID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ProfileConnection>("GetProfileConnections", profileIDParameter);
+        }
+    
+        public virtual ObjectResult<ProfileCompositeView> GetProfileView(Nullable<int> profileID)
+        {
+            var profileIDParameter = profileID.HasValue ?
+                new ObjectParameter("profileID", profileID) :
+                new ObjectParameter("profileID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ProfileCompositeView>("GetProfileView", profileIDParameter);
+        }
+    
+        public virtual int Profile_BuildProfileMatches_Geolocation(Nullable<int> profileID)
+        {
+            var profileIDParameter = profileID.HasValue ?
+                new ObjectParameter("profileID", profileID) :
+                new ObjectParameter("profileID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Profile_BuildProfileMatches_Geolocation", profileIDParameter);
+        }
     }
 }

@@ -10,18 +10,18 @@
 namespace CirohubServicesDataLayer
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Profile
+    public partial class ProfileCompositeView
     {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string CompanyName { get; set; }
+        public string Title { get; set; }
         public int ProfileId { get; set; }
-        public int PersonID { get; set; }
-        public Nullable<int> YearsExperienceID { get; set; }
-        public string LoginName { get; set; }
-        public string Password { get; set; }
-        public string Inactive { get; set; }
-        public string ModifiedBy { get; set; }
-        public Nullable<System.DateTime> ModifiedDate { get; set; }
-        public byte[] ProfileImage { get; set; }
+        public int YearsExperience { get; set; }
+        public string IndustryName { get; set; }
+        public Nullable<decimal> GrossRevenue { get; set; }
+        public Nullable<decimal> OperatingMargin { get; set; }
+        public Nullable<decimal> NetMargin { get; set; }
     }
 }

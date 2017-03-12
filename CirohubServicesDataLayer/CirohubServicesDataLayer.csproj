@@ -69,6 +69,9 @@
     <Compile Include="Company.cs">
       <DependentUpon>CirohubDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Connections_List_ProfileID_Result.cs">
+      <DependentUpon>CirohubDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="EmployeeCountLookup.cs">
       <DependentUpon>CirohubDataModel.tt</DependentUpon>
     </Compile>
@@ -90,6 +93,13 @@
     <Compile Include="ProfileCompany.cs">
       <DependentUpon>CirohubDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="ProfileCompositeView.cs">
+      <DependentUpon>CirohubDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProfileCompositeView_Metadata.cs" />
+    <Compile Include="ProfileConnection.cs">
+      <DependentUpon>CirohubDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="ProfileIndustry.cs">
       <DependentUpon>CirohubDataModel.tt</DependentUpon>
     </Compile>
@@ -103,6 +113,9 @@
       <DependentUpon>CirohubDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="ProfileService.cs">
+      <DependentUpon>CirohubDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Profile_Get_ProfileID_Result.cs">
       <DependentUpon>CirohubDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

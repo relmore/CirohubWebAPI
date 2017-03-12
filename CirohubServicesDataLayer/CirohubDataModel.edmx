@@ -96,6 +96,7 @@ warning 6002: The table/view 'CirohubDB.dbo.MatchScoreLookup' does not have a pr
           <Property Name="Inactive" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="ModifiedBy" Type="nvarchar" MaxLength="20" />
           <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="ProfileImage" Type="image" />
         </EntityType>
         <EntityType Name="ProfileCompany">
           <Key>
@@ -215,6 +216,15 @@ warning 6002: The table/view 'CirohubDB.dbo.YearsExperienceLookup' does not have
           <Property Name="ModifiedBy" Type="nvarchar" MaxLength="20" />
           <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
         </EntityType>
+        <Function Name="Connections_List_ProfileID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="profileID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Profile_BuildProfileMatches_Geolocation" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="profileID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Profile_Get_ProfileID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="profileID" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="CirohubDBModelStoreContainer">
           <EntitySet Name="Companies" EntityType="Self.Companies" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Industries" EntityType="Self.Industries" Schema="dbo" store:Type="Tables" />
@@ -325,6 +335,7 @@ warning 6002: The table/view 'CirohubDB.dbo.YearsExperienceLookup' does not have
           <Property Name="Inactive" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
           <Property Name="ModifiedBy" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ProfileImage" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="ProfileCompany">
           <Key>
@@ -492,7 +503,58 @@ warning 6002: The table/view 'CirohubDB.dbo.YearsExperienceLookup' does not have
           <EntitySet Name="MatchScoreLookups" EntityType="Self.MatchScoreLookup" />
           <EntitySet Name="Services" EntityType="Self.Service" />
           <EntitySet Name="YearsExperienceLookups" EntityType="Self.YearsExperienceLookup" />
+          <FunctionImport Name="GetProfileConnections" ReturnType="Collection(CirohubDBModel.ProfileConnection)">
+          <Parameter Name="profileID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetProfileView" ReturnType="Collection(CirohubDBModel.ProfileCompositeView)">
+          <Parameter Name="profileID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Profile_BuildProfileMatches_Geolocation">
+            <Parameter Name="profileID" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
+        <ComplexType Name="Connections_List_ProfileID_Result">
+          <Property Type="Int32" Name="ProfileID" Nullable="false" />
+          <Property Type="Int32" Name="MatchProfileID" Nullable="false" />
+          <Property Type="String" Name="connectionFName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="connectionLName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="company" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="connectionTitle" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="Profile_Get_ProfileID_Result">
+          <Property Type="String" Name="FirstName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="LastName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CompanyName" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="Title" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="ProfileId" Nullable="false" />
+          <Property Type="Int32" Name="YearsExperience" Nullable="false" />
+          <Property Type="String" Name="IndustryName" Nullable="true" MaxLength="200" />
+          <Property Type="Decimal" Name="GrossRevenue" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="Decimal" Name="OperatingMargin" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="Decimal" Name="NetMargin" Nullable="true" Precision="10" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="ProfileCompositeView">
+          <Property Type="String" Name="FirstName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="LastName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CompanyName" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="Title" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="ProfileId" Nullable="false" />
+          <Property Type="Int32" Name="YearsExperience" Nullable="false" />
+          <Property Type="String" Name="IndustryName" Nullable="true" MaxLength="200" />
+          <Property Type="Decimal" Name="GrossRevenue" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="Decimal" Name="OperatingMargin" Nullable="true" Precision="10" Scale="2" />
+          <Property Type="Decimal" Name="NetMargin" Nullable="true" Precision="10" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="ProfileConnection">
+          <Property Type="Int32" Name="ProfileID" Nullable="false" />
+          <Property Type="Int32" Name="MatchProfileID" Nullable="false" />
+          <Property Type="String" Name="connectionFName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="connectionLName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="company" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="connectionTitle" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="colorCode" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="connectionScore" Nullable="false" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -543,6 +605,7 @@ warning 6002: The table/view 'CirohubDB.dbo.YearsExperienceLookup' does not have
           <EntitySetMapping Name="Profiles">
             <EntityTypeMapping TypeName="CirohubDBModel.Profile">
               <MappingFragment StoreEntitySet="Profile">
+                <ScalarProperty Name="ProfileImage" ColumnName="ProfileImage" />
                 <ScalarProperty Name="ProfileId" ColumnName="ProfileId" />
                 <ScalarProperty Name="PersonID" ColumnName="PersonID" />
                 <ScalarProperty Name="YearsExperienceID" ColumnName="YearsExperienceID" />
@@ -698,6 +761,37 @@ warning 6002: The table/view 'CirohubDB.dbo.YearsExperienceLookup' does not have
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetProfileConnections" FunctionName="CirohubDBModel.Store.Connections_List_ProfileID">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CirohubDBModel.ProfileConnection">
+                <ScalarProperty Name="ProfileID" ColumnName="ProfileID" />
+                <ScalarProperty Name="MatchProfileID" ColumnName="MatchProfileID" />
+                <ScalarProperty Name="connectionFName" ColumnName="connectionFName" />
+                <ScalarProperty Name="connectionLName" ColumnName="connectionLName" />
+                <ScalarProperty Name="company" ColumnName="company" />
+                <ScalarProperty Name="connectionTitle" ColumnName="connectionTitle" />
+                <ScalarProperty Name="colorCode" ColumnName="colorCode" />
+                <ScalarProperty Name="connectionScore" ColumnName="connectionScore" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetProfileView" FunctionName="CirohubDBModel.Store.Profile_Get_ProfileID">
+          <ResultMapping>
+              <ComplexTypeMapping TypeName="CirohubDBModel.ProfileCompositeView">
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="ProfileId" ColumnName="ProfileId" />
+                <ScalarProperty Name="YearsExperience" ColumnName="YearsExperience" />
+                <ScalarProperty Name="IndustryName" ColumnName="IndustryName" />
+                <ScalarProperty Name="GrossRevenue" ColumnName="GrossRevenue" />
+                <ScalarProperty Name="OperatingMargin" ColumnName="OperatingMargin" />
+                <ScalarProperty Name="NetMargin" ColumnName="NetMargin" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Profile_BuildProfileMatches_Geolocation" FunctionName="CirohubDBModel.Store.Profile_BuildProfileMatches_Geolocation" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
